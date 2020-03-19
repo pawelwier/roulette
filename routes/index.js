@@ -1,0 +1,8 @@
+var express = require('express');
+var router = express.Router();
+
+var main_controller = require('../controllers/main_game');
+
+router.get('/', main_controller.get_main);
+
+module.exports = router;
