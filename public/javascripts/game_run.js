@@ -102,19 +102,55 @@ fieldArr.push(field13);
 fieldArr.push(field14);
 fieldArr.push(field15);
 
+var rollResult = '';
+
 document.getElementById('roll').addEventListener('click', () => {
-    var rollResult = Math.floor(Math.random() * 16);
+    var credit = parseInt(document.getElementById('credit').textContent);
+    rollResult = Math.floor(Math.random() * 16);
     var rollColorDisplay = getRollDetails(rollResult);
     console.log(rollResult);
     document.getElementById('printRoll').textContent = rollResult + ", " + rollColorDisplay;
+
+    betOnColor(rollColorDisplay, credit);
+    betOnEven(credit);
+
+    document.getElementById('colorInput').value = 'empty';
+    document.getElementById('evenInput').value = 'empty';
 });
 
 function getRollDetails(x) {
     var colorDisplay = '';
     for(var i = 0; i < fieldArr.length; i++) {
         if (fieldArr[i].val == x) {
-            colorDisplay = fieldArr[i].col == 'red' ? 'Czerwony' : 'Czarny';
+            colorDisplay = fieldArr[i].col == 'red' ? 'Czerwony' : (fieldArr[i].col == 'black' ? 'Czarny' : ' - ');
         }
     }
     return colorDisplay;
+}
+
+function betOnColor(color, sum) {
+    if (document.getElementById('colorInput').value == 'empty') return;
+    if (document.getElementById('colorInput').value == color) {
+        console.log("ZGADLES!");
+
+        document.getElementById('credit').textContent = (sum + 10);
+    } else {
+        document.getElementById('credit').textContent = (sum - 10);
+    }
+}
+
+function betOnEven (sum) {
+    var rollIsEven = (parseInt(rollResult) % 2 == 0);
+
+    console.log('rollIsEven: ' + rollIsEven);
+    console.log('doc: ' + document.getElementById('evenInput').value);
+    
+    if (document.getElementById('evenInput').value == 'empty') return;
+    if (document.getElementById('evenInput').value == rollIsEven.toString()) {
+        console.log("ZGADLES!");
+
+        document.getElementById('credit').textContent = (sum + 10);
+    } else {
+        document.getElementById('credit').textContent = (sum - 10);
+    }
 }

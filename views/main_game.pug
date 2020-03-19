@@ -8,7 +8,32 @@ head
 body
   p Wylosowalem:
     #printRoll _
+  br
+  //- form(action="/results", method="POST")#betColor
+  //- form#betColor
+  //-   input(type="radio", name="colorBet", value="red")#red
+  //-   label(for='red') Czerwony
+  //-   br
+  //-   input(type="radio", name="colorBet", value="black")#black
+  //-   label(for='black') Czarny    
+  //-   br
+  //-   button(type="submit")#roll Krync
+
+  //- input(type="text")#colorInput
+  select#colorInput(name="colorInput")
+    option(value="empty") - wybierz -
+    option(value="Czarny") Czarny
+    option(value="Czerwony") Czerwony
+  br
+  select#evenInput(name="evenInput")
+    option(value="empty") - wybierz -
+    option(value='true') Parzyste
+    option(value='false') Nieparzyste
+  br
   button#roll Krync
+  br
+  p Masz piniendzy:
+  #credit 100
 
 script
   include ../public/javascripts/game_run.js
