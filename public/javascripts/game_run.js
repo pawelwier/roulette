@@ -1,121 +1,47 @@
-var field0 = {
-    val : 0,
-    col: 'green',
-};
+function Field (val, col) {
+        this.val = val;
+        this.col = col;
+    };
 
-var field1 = {
-    val : 1,
-    col: 'red',
-};
+var fieldArr = [field0 = new Field(), field1 = new Field(), field2 = new Field(), field3 = new Field(), field4 = new Field(), field5 = new Field(),
+field6 = new Field(), field7 = new Field(), field8 = new Field(), field9 = new Field(), field10 = new Field(), field11 = new Field(), 
+field12 = new Field(), field13 = new Field(), field14 = new Field(), field15 = new Field(), field16 = new Field(), field17 = new Field(),
+field18 = new Field(), field19 = new Field(), field20 = new Field(), field21 = new Field(), field22 = new Field(), field23 = new Field(),
+field24 = new Field(), field25 = new Field(), field26 = new Field(), field27 = new Field(), field28 = new Field(), field29 = new Field(),
+field30 = new Field(), field31 = new Field(), field32 = new Field(), field33 = new Field(), field34 = new Field(), field35 = new Field(), 
+field36 = new Field()];
 
-var field3 = {
-    val : 3,
-    col: 'red',
-};
+var redFields = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
 
-var field5 = {
-    val : 5,
-    col: 'red',
-};
+for (var i = 0; i < 37; i++) {
+    fieldArr[i].val = i;
+    fieldArr[i].col = i == 0 ? "green" : (redFields.includes(i) ? "red" : "black");
+}
 
-var field1 = {
-    val : 1,
-    col: 'red',
-};
-
-var field1 = {
-    val : 1,
-    col: 'red',
-};
-
-var field7 = {
-    val : 7,
-    col: 'red',
-};
-
-var field9 = {
-    val : 9,
-    col: 'red',
-};
-
-var field12 = {
-    val : 12,
-    col: 'red',
-};
-
-var field14 = {
-    val : 14,
-    col: 'red',
-};
-
-var field2 = {
-    val : 2,
-    col: 'black',
-};
-
-var field4 = {
-    val : 4,
-    col: 'black',
-};
-var field6 = {
-    val : 6,
-    col: 'black',
-};
-var field8 = {
-    val : 8,
-    col: 'black',
-};
-var field10 = {
-    val : 10,
-    col: 'black',
-};
-var field11 = {
-    val : 11,
-    col: 'black',
-};
-var field13 = {
-    val : 13,
-    col: 'black',
-};
-
-var field15 = {
-    val : 15,
-    col: 'black',
-};
-
-var fieldArr = [];
-
-fieldArr.push(field0);
-fieldArr.push(field1);
-fieldArr.push(field2);
-fieldArr.push(field3);
-fieldArr.push(field4);
-fieldArr.push(field5);
-fieldArr.push(field6);
-fieldArr.push(field7);
-fieldArr.push(field8);
-fieldArr.push(field9);
-fieldArr.push(field10);
-fieldArr.push(field11);
-fieldArr.push(field12);
-fieldArr.push(field13);
-fieldArr.push(field14);
-fieldArr.push(field15);
 
 var rollResult = '';
+var startCash = 100;
+document.getElementById('credit').textContent = startCash;
+var credit = parseInt(document.getElementById('credit').textContent);
+
+// disableInputsWhenEmpty();
 
 document.getElementById('roll').addEventListener('click', () => {
-    var credit = parseInt(document.getElementById('credit').textContent);
+
+    var colorBid = parseInt(document.getElementById('colorBid').value);
+    var evenBid = parseInt(document.getElementById('evenBid').value);
+    
     rollResult = Math.floor(Math.random() * 16);
     var rollColorDisplay = getRollDetails(rollResult);
-    console.log(rollResult);
     document.getElementById('printRoll').textContent = rollResult + ", " + rollColorDisplay;
 
-    betOnColor(rollColorDisplay, credit);
-    betOnEven(credit);
+    if (colorBid) betOnColor(rollColorDisplay, colorBid);
+    if (evenBid) betOnEven(evenBid);
 
-    document.getElementById('colorInput').value = 'empty';
-    document.getElementById('evenInput').value = 'empty';
+    document.getElementById('credit').textContent = credit;
+
+    // document.getElementById('colorInput').value = 'empty';
+    // document.getElementById('evenInput').value = 'empty';
 });
 
 function getRollDetails(x) {
@@ -131,11 +57,9 @@ function getRollDetails(x) {
 function betOnColor(color, sum) {
     if (document.getElementById('colorInput').value == 'empty') return;
     if (document.getElementById('colorInput').value == color) {
-        console.log("ZGADLES!");
-
-        document.getElementById('credit').textContent = (sum + 10);
+       credit += sum;
     } else {
-        document.getElementById('credit').textContent = (sum - 10);
+       credit -= sum;
     }
 }
 
@@ -147,10 +71,13 @@ function betOnEven (sum) {
     
     if (document.getElementById('evenInput').value == 'empty') return;
     if (document.getElementById('evenInput').value == rollIsEven.toString()) {
-        console.log("ZGADLES!");
-
-        document.getElementById('credit').textContent = (sum + 10);
+       credit += sum;
     } else {
-        document.getElementById('credit').textContent = (sum - 10);
+      credit -= sum;
     }
 }
+
+// function disableInputsWhenEmpty() {
+//     if (document.getElementById('colorInput').value == 'empty') document.getElementById("colorBid").disabled = true;
+//     if (document.getElementById('evenInput').value == 'empty') document.getElementById("evenBid").disabled = true;
+// }

@@ -20,11 +20,13 @@ body
   //-   button(type="submit")#roll Krync
 
   //- input(type="text")#colorInput
+  input#colorBid
   select#colorInput(name="colorInput")
     option(value="empty") - wybierz -
     option(value="Czarny") Czarny
     option(value="Czerwony") Czerwony
   br
+  input#evenBid
   select#evenInput(name="evenInput")
     option(value="empty") - wybierz -
     option(value='true') Parzyste
@@ -33,7 +35,7 @@ body
   button#roll Krync
   br
   p Masz piniendzy:
-  #credit 100
+  #credit x
 
 script
   include ../public/javascripts/game_run.js
