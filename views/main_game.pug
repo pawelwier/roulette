@@ -6,36 +6,44 @@ head
       include ../public/styles/main.css
 
 body
+
+  .boardOutside
+    #columnHeader
+    .boardInside
+      #boardRow0 
+      #boardRow1 
+      #boardRow2 
+      div 0
+  br
   p Wylosowalem:
     #printRoll _
   br
-  //- form(action="/results", method="POST")#betColor
-  //- form#betColor
-  //-   input(type="radio", name="colorBet", value="red")#red
-  //-   label(for='red') Czerwony
-  //-   br
-  //-   input(type="radio", name="colorBet", value="black")#black
-  //-   label(for='black') Czarny    
-  //-   br
-  //-   button(type="submit")#roll Krync
-
-  //- input(type="text")#colorInput
   input#colorBid
   select#colorInput(name="colorInput")
     option(value="empty") - wybierz -
     option(value="Czarny") Czarny
     option(value="Czerwony") Czerwony
+  span  kolor
   br
   input#evenBid
   select#evenInput(name="evenInput")
     option(value="empty") - wybierz -
     option(value='true') Parzyste
     option(value='false') Nieparzyste
+  span  parzyste/nieparzyste
   br
-  button#roll Krync
+  input#dozenBid
+  select#dozenInput(name="dozenInput")
+    option(value="empty") - wybierz -
+    option(value='0') 1 - 12
+    option(value='1') 13 - 24
+    option(value='2') 25 - 36
+  span  tuziny
   br
-  p Masz piniendzy:
-  #credit x
+  button#roll Krecimy
+  br
+  p Masz $:
+  #credit 
 
 script
   include ../public/javascripts/game_run.js

@@ -13,35 +13,39 @@ field36 = new Field()];
 
 var redFields = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
 
-for (var i = 0; i < 37; i++) {
+for (var i = 0; i < fieldArr.length; i++) {
     fieldArr[i].val = i;
     fieldArr[i].col = i == 0 ? "green" : (redFields.includes(i) ? "red" : "black");
 }
 
+var boardRow0 = [];
+var boardRow1 = [];
+var boardRow2 = [];
 
-var rollResult = '';
+for (var i = 1; i < fieldArr.length; i++) {
+    if ( i % 3 == 0) boardRow0.push(fieldArr[i].val);
+    if ( i % 3 == 2) boardRow1.push(fieldArr[i].val);
+    if ( i % 3 == 1) boardRow2.push(fieldArr[i].val);
+};
+
+document.getElementById('boardRow0').textContent = boardRow0;
+document.getElementById('boardRow1').textContent = boardRow1;
+document.getElementById('boardRow2').textContent = boardRow2;
+
+var rollResult, rollColorDisplay;
 var startCash = 100;
 document.getElementById('credit').textContent = startCash;
 var credit = parseInt(document.getElementById('credit').textContent);
 
-// disableInputsWhenEmpty();
-
 document.getElementById('roll').addEventListener('click', () => {
-
-    var colorBid = parseInt(document.getElementById('colorBid').value);
-    var evenBid = parseInt(document.getElementById('evenBid').value);
     
-    rollResult = Math.floor(Math.random() * 16);
-    var rollColorDisplay = getRollDetails(rollResult);
+    rollResult = Math.floor(Math.random() * 37);
+    rollColorDisplay = getRollDetails(rollResult);
     document.getElementById('printRoll').textContent = rollResult + ", " + rollColorDisplay;
 
-    if (colorBid) betOnColor(rollColorDisplay, colorBid);
-    if (evenBid) betOnEven(evenBid);
+    placeBets(rollColorDisplay);
 
     document.getElementById('credit').textContent = credit;
-
-    // document.getElementById('colorInput').value = 'empty';
-    // document.getElementById('evenInput').value = 'empty';
 });
 
 function getRollDetails(x) {
@@ -52,6 +56,15 @@ function getRollDetails(x) {
         }
     }
     return colorDisplay;
+}
+
+function checkIfCredit(sum1, sum2, sum3) {
+    if(sum1 > credit || sum2 > credit || sum3 > credit) {
+        alert("Nie masz tyle $");
+        document.getElementById('credit').textContent = credit;
+        return false;
+    }
+    return true;
 }
 
 function betOnColor(color, sum) {
@@ -66,9 +79,6 @@ function betOnColor(color, sum) {
 function betOnEven (sum) {
     var rollIsEven = (parseInt(rollResult) % 2 == 0);
 
-    console.log('rollIsEven: ' + rollIsEven);
-    console.log('doc: ' + document.getElementById('evenInput').value);
-    
     if (document.getElementById('evenInput').value == 'empty') return;
     if (document.getElementById('evenInput').value == rollIsEven.toString()) {
        credit += sum;
@@ -77,7 +87,25 @@ function betOnEven (sum) {
     }
 }
 
-// function disableInputsWhenEmpty() {
-//     if (document.getElementById('colorInput').value == 'empty') document.getElementById("colorBid").disabled = true;
-//     if (document.getElementById('evenInput').value == 'empty') document.getElementById("evenBid").disabled = true;
-// }
+function betOnDozen(sum) {
+    if (document.getElementById('dozenInput').value == 'empty') return;
+    if ((document.getElementById('dozenInput').value == '0' && rollResult > 0 && rollResult <= 12) ||
+    (document.getElementById('dozenInput').value == '1' && rollResult > 12 && rollResult <= 24) ||
+    (document.getElementById('dozenInput').value == '2' && rollResult > 25)) {
+        credit += (sum * 2);
+    } else {
+        credit -= sum;
+    }
+}
+
+function placeBets(color) {
+    var colorBid = parseInt(document.getElementById('colorBid').value);
+    var evenBid = parseInt(document.getElementById('evenBid').value);
+    var dozenBid = parseInt(document.getElementById('dozenBid').value);
+
+    if (checkIfCredit(colorBid, evenBid, dozenBid)) {
+        if (colorBid) betOnColor(color, colorBid);
+        if (evenBid) betOnEven(evenBid);
+        if (dozenBid) betOnDozen(dozenBid);
+    }
+}
