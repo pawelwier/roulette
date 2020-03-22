@@ -4,46 +4,63 @@ html
 head
   style
       include ../public/styles/main.css
-
 body
-
-  .boardOutside
-    #columnHeader
-    .boardInside
-      #boardRow0 
-      #boardRow1 
-      #boardRow2 
-      div 0
-  br
+  table#numBoard
+    - var i=1
+    tr
+      while i < 13
+        th= i++
+    tr
+      each value, index in fieldArr
+        if  (index%3==0&&index>0)
+          td= value.val
+    tr
+      each value, index in fieldArr
+        if  (index%3==2)
+          td= value.val
+    tr
+      each value, index in fieldArr
+        if  (index%3==1)
+          td= value.val
+    tr
+      each value, index in fieldArr
+        if  (index==0)
+          td= value.val
   p Wylosowalem:
     #printRoll _
   br
-  input#colorBid
+  input#colorBid.inputs
   select#colorInput(name="colorInput")
     option(value="empty") - wybierz -
     option(value="Czarny") Czarny
     option(value="Czerwony") Czerwony
-  span  kolor
+  span  kolor (1:1)
   br
-  input#evenBid
+  input#evenBid.inputs
   select#evenInput(name="evenInput")
     option(value="empty") - wybierz -
     option(value='true') Parzyste
     option(value='false') Nieparzyste
-  span  parzyste/nieparzyste
+  span  parzyste/nieparzyste (1:1)
   br
-  input#dozenBid
+  input#dozenBid.inputs
   select#dozenInput(name="dozenInput")
     option(value="empty") - wybierz -
     option(value='0') 1 - 12
     option(value='1') 13 - 24
     option(value='2') 25 - 36
-  span  tuziny
+  span  tuziny (2:1)
   br
   button#roll Krecimy
+  button#clearBets Wyczysc
   br
   p Masz $:
   #credit 
+  br
+  .arrData
+    #arrColors #{arrColors}
+    #arrNumbers #{arrNumbers}
+      
 
 script
   include ../public/javascripts/game_run.js
