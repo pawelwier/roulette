@@ -23,11 +23,22 @@ for (var i = 0; i < fieldArr.length; i++) {
     arrColors.push(fieldArr[i].col);
 }
 
+var arrColumnSelect = [];
+var countColumn = 1;
+while (countColumn < 13) {
+    arrColumnSelect.push({
+        index : countColumn,
+        val : "kolumna " + countColumn
+    });
+    countColumn++;
+}
+
 exports.get_main = (req, res, next) => {
     res.render('main_game', {
         fieldArr : fieldArr,
         arrNumbers : arrNumbers,
-        arrColors : arrColors
+        arrColors : arrColors,
+        arrColumnSelect : arrColumnSelect
         
     })
 };

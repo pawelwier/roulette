@@ -17,9 +17,9 @@ document.getElementById('roll').addEventListener('click', () => {
     rollColorDisplay = getRollDetails(rollResult);
     document.getElementById('printRoll').textContent = rollResult + ", " + rollColorDisplay;
     
-    placeBets(rollColorDisplay);
-    
     highlightNumber(rollResult);
+    
+    placeBets(rollColorDisplay);
     
     document.getElementById('credit').textContent = credit;
 });
@@ -39,8 +39,8 @@ function getRollDetails(x) {
     return colorDisplay;
 }
 
-function checkIfCredit(sum1, sum2, sum3) {
-    if(sum1 + sum2 + sum3 > credit) {
+function checkIfCredit(sum1, sum2, sum3, sum4) {
+    if(sum1 + sum2 + sum3 + sum4 > credit) {
         alert("Nie masz tyle $");
         document.getElementById('credit').textContent = credit;
         return false;
@@ -83,11 +83,13 @@ function placeBets(color) {
     var colorBid = parseInt(document.getElementById('colorBid').value) || 0;
     var evenBid = parseInt(document.getElementById('evenBid').value) || 0;
     var dozenBid = parseInt(document.getElementById('dozenBid').value) || 0;
+    var columnBid = parseInt(document.getElementById('columnBid').value) || 0;
 
-    if (checkIfCredit(colorBid, evenBid, dozenBid)) {
+    if (checkIfCredit(colorBid, evenBid, dozenBid, columnBid)) {
         if (colorBid) betOnColor(color, colorBid);
         if (evenBid) betOnEven(evenBid);
         if (dozenBid) betOnDozen(dozenBid);
+        if (columnBid) betOnColumn(columnBid);
     }
 }
 
@@ -122,11 +124,32 @@ function highlightNumber(num) {
     }
 }
 
+function betOnColumn(sum) {
+    if (document.getElementById('columnInput').value == 'empty') return;
+
+    var table = document.getElementById('numBoard');
+    for (var r = 1, n = table.rows.length; r < n; r++) {
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+            if (table.rows[r].cells[c].innerHTML == rollResult) {
+                if (document.getElementById('columnInput').value == table.rows[0].cells[c].innerHTML) {
+                    credit += (sum * 11);
+                } else {
+                    credit -= sum;
+                }
+                
+
+            }
+        }
+    }
+}
+
 function clearBets() {
     document.getElementById('colorInput').value = 'empty';
     document.getElementById('dozenInput').value = 'empty';
     document.getElementById('evenInput').value = 'empty';
+    document.getElementById('columnInput').value = 'empty';
     document.getElementById('colorBid').value = '';
     document.getElementById('evenBid').value = '';
     document.getElementById('dozenBid').value = '';
+    document.getElementById('columnBid').value = '';
 }

@@ -51,6 +51,13 @@ body
     option(value='2') 25 - 36
   span  tuziny (2:1)
   br
+  input#columnBid.inputs
+  select#columnInput(name="columnInput")
+    option(value="empty") - wybierz -
+    each col in arrColumnSelect
+      option(value=col.index) #{col.val}
+  span  kolumna (11:1)
+  br
   button#roll Krecimy
   button#clearBets Wyczysc
   br
